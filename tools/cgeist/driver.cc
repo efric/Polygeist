@@ -253,6 +253,9 @@ static cl::opt<bool> PMEnablePrinting(
     "pm-enable-printing", cl::init(false),
     cl::desc("Enable printing of IR before and after all passes"));
 
+static cl::opt<bool> EnablePolyEgg("egg", cl::init(false),
+                                   cl::desc("Call PolyEgg"));
+
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 
 class PolygeistCudaDetectorArgList : public llvm::opt::ArgList {
@@ -646,6 +649,22 @@ int main(int argc, char **argv) {
   mlir::OpPassManager &optPM = pm.nest<mlir::func::FuncOp>();
   GreedyRewriteConfig canonicalizerConfig;
   canonicalizerConfig.maxIterations = CanonicalizeIterations;
+
+  /* insert egg here
+  add egg as a pass
+  then polygeistcanoncalize?
+  */
+
+  if (EnablePolyEgg) {
+    optPM.addPass(mlir::polygeist::createPolyEggPass());
+    if (mlir::failed(pm.run(module.get()))) {
+      module->dump();
+      return 99;
+    }
+    module->print(llvm::outs() << "YOOOOO!!\n", flags);
+    return 0;
+  }
+
   if (true) {
     optPM.addPass(mlir::createCSEPass());
     optPM.addPass(mlir::polygeist::createPolygeistCanonicalizePass(

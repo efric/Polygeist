@@ -1,3 +1,6 @@
+corrosion_import_crate(MANIFEST_PATH ../../../include/polygeist/polyegg/Cargo.toml)
+corrosion_add_cxxbridge(cxxbridge-cpp CRATE polyegg MANIFEST_PATH ../../../include/polygeist/polyegg FILES polyegg.rs)
+
 add_mlir_dialect_library(MLIRPolygeistTransforms
   ConvertToOpaquePtr.cpp
   AffineCFG.cpp
@@ -22,6 +25,7 @@ add_mlir_dialect_library(MLIRPolygeistTransforms
   ParallelLoopUnroll.cpp
   LowerAlternatives.cpp
   CollectKernelStatistics.cpp
+  PolyEgg.cpp
 
   ADDITIONAL_HEADER_DIRS
   ${MLIR_MAIN_INCLUDE_DIR}/mlir/Dialect/Affine
@@ -59,6 +63,8 @@ add_mlir_dialect_library(MLIRPolygeistTransforms
   MLIRArithToLLVM
   MLIROpenMPToLLVM
   )
+
+target_link_libraries(MLIRPolygeistTransforms PUBLIC cxxbridge-cpp)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)

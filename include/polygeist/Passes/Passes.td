@@ -282,4 +282,9 @@ def ConvertPolygeistToLLVM : Pass<"convert-polygeist-to-llvm", "mlir::ModuleOp">
   ];
 }
 
+def PolyEgg : Pass<"polygegg"> {
+  let summary = "Call egg from MLIR";
+  let constructor = "mlir::polygeist::createPolyEggPass()";
+}
+
 #endif // POLYGEIST_PASSES
