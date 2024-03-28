@@ -13,7 +13,7 @@
 #include "polygeist/Passes/Passes.h"
 #include "llvm/Support/Debug.h"
 
-#include "polygeist/corrosion_generated/cxxbridge/cxxbridge-cpp/include/cxxbridge-cpp/polyegg.h"
+#include <cxxbridge-cpp/polyegg.h>
 
 #define DEBUG_TYPE "poly-egg"
 
